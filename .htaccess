@@ -1,0 +1,54 @@
+
+
+  # Aqui lo que hago es rertuear todas las solicitudes al idex
+  # De esta manera podemos generar un ROUTE desde el index
+  # https://www.taniarascia.com/the-simplest-php-router/
+  # https://github.com/phprouter/main
+  # Esta es la manera de hacerlo cuando tenenmos creado un VISRTAL HOST
+
+
+
+  # estoy creando una pagina web, pero al cambiar de pagina en pagina no funciona dentro del host, pero de forma local funciona perfectamente, estoy usando PHP con el framework MINI 3.
+  # Estoy pensando que es el .htaccess, el cual lo tengo de la siguiente manera:
+  # Necessary to prevent problems when using a controller named "index" and having a root index.php
+  # more here: http://httpd.apache.org/docs/2.2/content-negotiation.html
+
+    #Options -MultiViews
+              #----------------------------------------------- RewriteEngine
+  # Esto te permite hacer uso del módulo mod_rewrite
+  # para poder reescribir o redireccionar URLs.
+
+    RewriteEngine On
+    RewriteBase /
+
+              #----------------------------------------------- RewriteCond:
+# Si las siguientes condiciones son verdaderas, entonces redireccionamos la URL:
+# Si el nombre de fichero solicitado no es un directorio,
+
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+# Y además, si el nombre de fichero solicitado no es un archivo que
+# ya exista (podría existir a nivel de servidor lo que estés buscando por la URL)
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+# Y el fichero solicitado no es un enlace simbólico
+# ¿Qué es un enlace simbólico? https://es.wikipedia.org/wiki/Enlace_simb%C3%B3lico
+
+  #  RewriteCond %{REQUEST_FILENAME} !-l
+
+            #--------------------------------------------------- RewriteRule:
+# Entonces sobreescribe la URL de la siguiente forma:
+# Coge todo el fichero solicitado y se convierte, por así decirlo
+# a un parámetro de URL. Esto además añade cualquier texto
+# de la URL original como parámetros adicionales [QSA]
+# Con [L] lo que le indicas es que no siga leyendo más reglas
+# (en caso de que sigas teniendo reglas en el .htaccess).
+# Ten en cuenta que (.+) es una expresión regular que, directamente
+# Hace match con cualquier caracter que se ingrese.
+
+    # RewriteRule ^routes\.php＄ - [L]
+    # RewriteRule . /cust1/routes.php [QSA,L]
+
+      
+     RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
